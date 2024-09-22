@@ -1,0 +1,95 @@
+[gd_scene load_steps=10 format=3 uid="uid://clxbuc1fyesot"]
+
+[ext_resource type="Shader" path="res://grid.gdshader" id="1_ao28i"]
+[ext_resource type="PackedScene" uid="uid://cahixaen0tvta" path="res://character/dude.tscn" id="2_y54pp"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3jork"]
+absorbent = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g8cc6"]
+render_priority = 0
+shader = ExtResource("1_ao28i")
+shader_parameter/subdivisions = 100.0
+shader_parameter/grid_width = 0.01
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0, 0, 0, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.01
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_skxcb"]
+size = Vector3(100, 0.1, 100)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uekhh"]
+
+[sub_resource type="Sky" id="Sky_6le40"]
+sky_material = SubResource("ProceduralSkyMaterial_uekhh")
+
+[sub_resource type="Environment" id="Environment_w6yyr"]
+background_mode = 2
+sky = SubResource("Sky_6le40")
+ambient_light_source = 3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o240m"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_3jork")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Ground"]
+size = Vector3(100, 0.1, 100)
+material = SubResource("ShaderMaterial_g8cc6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_skxcb")
+
+[node name="walking" parent="." instance=ExtResource("2_y54pp")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_w6yyr")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.665491, -0.746406, 0, 0.746406, 0.665491, 0.632028, 1.9376, 2.16375)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="RigidBody3D"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_o240m")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.122253, -0.148376, 3.90669)
+use_collision = true
+size = Vector3(4.45764, 0.703247, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.122253, -0.0354025, 4.40765)
+use_collision = true
+size = Vector3(4.45764, 0.703247, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.122253, 0.0707939, 5.04215)
+use_collision = true
+size = Vector3(4.45764, 0.703247, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.122253, -0.23775, 3.43213)
+use_collision = true
+size = Vector3(4.45764, 0.703247, 1)
