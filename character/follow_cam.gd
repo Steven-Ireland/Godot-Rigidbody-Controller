@@ -6,6 +6,9 @@ extends Node3D
 func _ready() -> void:
 	pass # Replace with function body.
 
+func _input(e: InputEvent) -> void:
+	if e is InputEventMouseMotion:
+		rotate(Vector3.UP, e.screen_relative.x / 100)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -16,6 +19,8 @@ func _process(delta: float) -> void:
 	
 	pos /= len(targets)
 	
-	pos += Vector3(0, 1, 0)
+	pos += Vector3(0, 0.5, 0)
 		
 	global_position = lerp(global_position, pos, 0.3)
+	
+	

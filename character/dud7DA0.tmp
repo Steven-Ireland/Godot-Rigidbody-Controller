@@ -54,7 +54,7 @@ script = ExtResource("5_e7n6r")
 target_forcer = NodePath("../RigidBody3D")
 target_skeleton = NodePath("../RigidBody3D/Pose/Skeleton3D")
 max_linear_force = 1000.0
-max_angular_force = 10.0
+max_angular_force = 100.0
 
 [node name="mixamorig_RightLeg" type="RigidBody3D" parent="physics"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, -0.0992399, 0.25, 0)
