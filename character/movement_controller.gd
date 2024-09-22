@@ -1,5 +1,6 @@
-extends RigidBody3D
+extends Node
 
+@export var follow: Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -19,11 +20,12 @@ func _process(delta: float) -> void:
 	var forward = -1 if Input.is_action_pressed("ui_down") else 1 if Input.is_action_pressed("ui_up") else 0
 	var direction = Vector2(left, forward)
 	
+	
 	if Input.is_action_just_pressed("ui_accept"):
-		$Pose/AnimationPlayer.play("poses/run_jump")
+		$AnimationPlayer.play("poses/run_jump")
 	if forward > 0:
-		$Pose/AnimationPlayer.play("poses/run")
+		$AnimationPlayer.play("poses/run")
 	elif forward < 0:
-		$Pose/AnimationPlayer.play("poses/back_run")
+		$AnimationPlayer.play("poses/back_run")
 	#else:
 		#$Pose/AnimationPlayer.play("poses/idle")

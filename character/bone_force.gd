@@ -17,7 +17,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	for b in get_children():
-		if b is not RigidBody3D or b.freeze or b.name.begins_with("Rigid"):
+		if b is not RigidBody3D or b.freeze or b.name.begins_with("i_"):
 			continue
 			
 		var target_bone_id = target_skeleton.find_bone(b.name)
