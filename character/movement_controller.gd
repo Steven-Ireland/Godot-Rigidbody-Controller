@@ -19,8 +19,7 @@ func _process(delta: float) -> void:
 	var left = -1 if Input.is_action_pressed("ui_left") else 1 if Input.is_action_pressed("ui_right") else 0
 	var forward = -1 if Input.is_action_pressed("ui_down") else 1 if Input.is_action_pressed("ui_up") else 0
 	var direction = Vector2(left, forward)
-	
-	
+		
 	if Input.is_action_just_pressed("ui_accept"):
 		$AnimationPlayer.play("poses/run_jump")
 	if forward > 0:
