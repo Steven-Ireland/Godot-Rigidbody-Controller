@@ -51,7 +51,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0261451, 0)
 script = ExtResource("5_e7n6r")
 target_forcer = NodePath("mixamorig_Hips")
 target_skeleton = NodePath("../Pose/Skeleton3D")
-spring_stiffness = 4000.0
+spring_stiffness = 2000.0
 max_linear_force = 1000.0
 
 [node name="mixamorig_RightLeg" type="RigidBody3D" parent="physics"]
