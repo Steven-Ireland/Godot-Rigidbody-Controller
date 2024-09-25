@@ -8,6 +8,8 @@ extends Node
 
 @export var max_angular_force: float = 9999.0
 
+@export var anims: AnimationPlayer
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,6 +18,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	var accum_diff = 0.0
+	
 	for b in get_children():
 		if b is not RigidBody3D or b.freeze or b.name.begins_with("i_"):
 			continue
@@ -29,6 +33,8 @@ func _physics_process(delta: float) -> void:
 		var rotation_difference := target_transform.basis * current_transform.basis.inverse()
 		var position_difference:Vector3 = target_transform.origin - (current_transform.origin  + Vector3(0, -size.y/2, 0) * current_transform.basis + Vector3(0, 0.1, 0))
 		
+		accum_diff += clamp(target_transform.basis.get_rotation_quaternion().angle_to(current_transform.basis.get_rotation_quaternion()), 0, 1)
+		
 		#if position_difference.length_squared() > 1.0:
 			#b.global_position = target_transform.origin
 		#else:
@@ -40,14 +46,15 @@ func _physics_process(delta: float) -> void:
 		#	target_forcer.apply_force(-force)
 		var iner = PhysicsServer3D.body_get_direct_state(b.get_rid()).inverse_inertia.inverse()
 	
+		var position_factor = position_difference.length() * 3
 		# need to zero out twist. It's causing super fast rotations caused by dampening going crazy
-		var torque = hookes_law(rotation_difference.get_euler() * 4, b.angular_velocity, spring_stiffness, iner) * iner
+		var torque = hookes_law(rotation_difference.get_euler() * 4, b.angular_velocity, spring_stiffness * position_factor, iner) * iner
 		torque = torque.limit_length(max_angular_force)
 		# ACTUAL SLEEPY ROOT CAUSE
 		# sometimes diff goes between positive radian and negative radian, that causes oscillation.
 		# and sometimes dampening overcorrects hard. ne
 				
-		if b.name == "mixamorig_RightUpLeg":
+		if b.name == "mixamorig_RightUpLegaaaaa":
 			print("DIFF ", rotation_difference.get_euler())
 			print("VELO ", b.angular_velocity)
 			print("INER ", iner)
@@ -55,6 +62,12 @@ func _physics_process(delta: float) -> void:
 		
 		b.apply_torque(torque)
 		#target_forcer.apply_torque(-torque)
+	
+	accum_diff /= get_child_count()
+	
+	print(accum_diff)
+	
+	anims.speed_scale = clampf(1 - accum_diff, 0.1, 1)
 #
 func hookes_law(displacement: Vector3, current_velocity: Vector3, stiffness: float, inertia: Vector3) -> Vector3:
 	return stiffness * displacement - 2 * (Vector3(sqrt(inertia.x * stiffness ), sqrt(inertia.y * stiffness ), sqrt(inertia.z * stiffness )) * current_velocity)
