@@ -8,8 +8,8 @@ func _ready() -> void:
 
 func _input(e: InputEvent) -> void:
 	if e is InputEventMouseMotion:
+		#rotate(transform.basis.x, e.screen_relative.y / 100)
 		rotate(Vector3.UP, -e.screen_relative.x / 100)
-		rotate(transform.basis.x, e.screen_relative.y / 100)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
