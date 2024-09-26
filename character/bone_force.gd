@@ -30,8 +30,8 @@ func _physics_process(delta: float) -> void:
 		var current_transform: Transform3D = b.transform
 		var size = b.get_node("CSGBox3D").size
 
-		var rotation_difference := target_transform.basis * current_transform.basis.inverse()
-		var position_difference:Vector3 = target_transform.origin - (current_transform.origin  + Vector3(0, -size.y/2, 0) * current_transform.basis + Vector3(0, 0.1, 0))
+		var rotation_difference := target_transform.basis.get_rotation_quaternion() * current_transform.basis.get_rotation_quaternion().inverse()
+		var position_difference:Vector3 = target_transform.origin - (current_transform.origin )
 		
 		accum_diff += clamp(target_transform.basis.get_rotation_quaternion().angle_to(current_transform.basis.get_rotation_quaternion()), 0, 1)
 		
@@ -47,27 +47,46 @@ func _physics_process(delta: float) -> void:
 		var iner = PhysicsServer3D.body_get_direct_state(b.get_rid()).inverse_inertia.inverse()
 	
 		var position_factor = position_difference.length() * 3
+		var normalized_rotation_angles = normalize_rotation(rotation_difference.get_euler())
+		
 		# need to zero out twist. It's causing super fast rotations caused by dampening going crazy
-		var torque = hookes_law(rotation_difference.get_euler() * 4, b.angular_velocity, spring_stiffness * position_factor, iner) * iner
+		var torque = hookes_law(normalized_rotation_angles * 4, b.angular_velocity, spring_stiffness * position_factor, iner) * iner
 		torque = torque.limit_length(max_angular_force)
 		# ACTUAL SLEEPY ROOT CAUSE
 		# sometimes diff goes between positive radian and negative radian, that causes oscillation.
 		# and sometimes dampening overcorrects hard. ne
 				
-		if b.name == "mixamorig_RightUpLegaaaaa":
-			print("DIFF ", rotation_difference.get_euler())
-			print("VELO ", b.angular_velocity)
-			print("INER ", iner)
-			print("FORC", torque)
+		if b.name == "mixamorig_Hips":
+			print("DIFF ", normalized_rotation_angles)
+			
+			#print("VELO ", b.angular_velocity)
+			#print("INER ", iner)
+			#print("FORC", torque)
 		
 		b.apply_torque(torque)
 		#target_forcer.apply_torque(-torque)
 	
 	accum_diff /= get_child_count()
 	
-	print(accum_diff)
+	#print(accum_diff)
 	
 	anims.speed_scale = clampf(1 - accum_diff, 0.1, 1)
+
+func normalize_rotation(angles: Vector3) -> Vector3:
+	return Vector3(
+		normalize_angle(angles.x),
+		normalize_angle(angles.y),
+		normalize_angle(angles.z)
+	)
+
+func normalize_angle(angle: float) -> float:
+	# Normalize the angle to be within the range [-PI, PI]
+	if angle > PI:
+		angle -= TAU  # TAU is 2 * PI
+	if angle < -PI:
+		angle += TAU
+	return angle
+	
 #
 func hookes_law(displacement: Vector3, current_velocity: Vector3, stiffness: float, inertia: Vector3) -> Vector3:
 	return stiffness * displacement - 2 * (Vector3(sqrt(inertia.x * stiffness ), sqrt(inertia.y * stiffness ), sqrt(inertia.z * stiffness )) * current_velocity)

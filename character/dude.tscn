@@ -64,7 +64,7 @@ max_linear_force = 1000.0
 anims = NodePath("../Pose/AnimationPlayer")
 
 [node name="mixamorig_RightLeg" type="RigidBody3D" parent="physics"]
-transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, -0.0992399, 0.25, 0)
+transform = Transform3D(1, 0, 0, 0, -1, 1.50996e-07, 0, -1.50996e-07, -1, -0.0992399, 0.25, 0)
 collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_xrjq5")
 
@@ -75,7 +75,7 @@ size = Vector3(0.1, 0.45, 0.1)
 shape = SubResource("BoxShape3D_s65w3")
 
 [node name="mixamorig_RightUpLeg" type="RigidBody3D" parent="physics"]
-transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, -0.099, 0.75, 0)
+transform = Transform3D(1, 0, 0, 0, -1, 1.50996e-07, 0, -1.50996e-07, -1, -0.099, 0.75, 0)
 collision_layer = 2
 
 [node name="CSGBox3D" type="CSGBox3D" parent="physics/mixamorig_RightUpLeg"]
@@ -90,7 +90,7 @@ node_a = NodePath("..")
 node_b = NodePath("../../mixamorig_RightLeg")
 
 [node name="mixamorig_LeftLeg" type="RigidBody3D" parent="physics"]
-transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0.109362, 0.25, 0)
+transform = Transform3D(1, 0, 0, 0, -1, 1.50996e-07, 0, -1.50996e-07, -1, 0.109362, 0.25, 0)
 collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_xrjq5")
 
@@ -101,7 +101,7 @@ size = Vector3(0.1, 0.45, 0.1)
 shape = SubResource("BoxShape3D_s65w3")
 
 [node name="mixamorig_LeftUpLeg" type="RigidBody3D" parent="physics"]
-transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0.109, 0.75, 0)
+transform = Transform3D(1, 0, 0, 0, -1, 1.50996e-07, 0, -1.50996e-07, -1, 0.109, 0.75, 0)
 collision_layer = 2
 
 [node name="CSGBox3D" type="CSGBox3D" parent="physics/mixamorig_LeftUpLeg"]
