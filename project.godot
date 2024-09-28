@@ -13,7 +13,12 @@ config_version=5
 config/name="3DPhysicsGame"
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+run/max_fps=119
 config/icon="res://icon.svg"
+
+[editor]
+
+movie_writer/movie_file="C:/Users/scien/Documents/GitHub/3dphysicsgame/wat.avi"
 
 [input]
 
@@ -37,9 +42,13 @@ right={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":100,"location":0,"echo":false,"script":null)
 ]
 }
+shift={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
 
 [physics]
 
 common/physics_ticks_per_second=120
-common/max_physics_steps_per_frame=16
 3d/physics_engine="JoltPhysics3D"
