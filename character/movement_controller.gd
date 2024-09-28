@@ -29,12 +29,13 @@ func _process(delta: float) -> void:
 	# TODO: No blend, just need 8 way
 	$Skeleton3D/AnimationTree.set("parameters/movement_speed/blend_position", direction.length() * dirmod)
 	
+	#$Skeleton3D.rotation.x = direction.length() * dirmod * PI / 16
 	$Skeleton3D.rotation.y = get_parent().get_node("SpringArm3D").rotation.y
 	
 	if direction:
 		var adj = Vector2(direction.x, abs(direction.y))
 		if direction.y < 0:
 			adj.x = -adj.x
-			
+		
 		$Skeleton3D.rotate_y(adj.angle() - PI / 2)
 	

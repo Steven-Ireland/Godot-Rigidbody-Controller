@@ -59,6 +59,7 @@ material = SubResource("ShaderMaterial_g8cc6")
 shape = SubResource("BoxShape3D_skxcb")
 
 [node name="walking" parent="." instance=ExtResource("2_y54pp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.484716, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 

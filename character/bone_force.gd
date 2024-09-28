@@ -6,7 +6,7 @@ extends Node
 @export var spring_stiffness: float = 1200.0
 @export var max_angular_force: float = 9999.0
 
-@export var anims: AnimationPlayer
+@export var anims: AnimationTree
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
@@ -16,6 +16,7 @@ func _physics_process(delta: float) -> void:
 		if b is not RigidBody3D or b.freeze or b.name.begins_with("i_"):
 			continue
 					
+		#var height = b.global_position.y - get_lowest_bone().position.y
 		var target_transform: Transform3D = get_bone_pose(b.name)
 		var current_transform: Transform3D = b.transform
 		var rotation_difference := target_transform.basis.get_rotation_quaternion() * current_transform.basis.get_rotation_quaternion().inverse()
@@ -41,15 +42,24 @@ func _physics_process(delta: float) -> void:
 		
 		b.apply_torque(rescaled_torque)
 		
-		accum_diff += clamp(target_transform.basis.get_rotation_quaternion().angle_to(current_transform.basis.get_rotation_quaternion()), 0, 1)
+		if not b.name.contains("Toe"):
+			accum_diff += clamp(target_transform.basis.get_rotation_quaternion().angle_to(current_transform.basis.get_rotation_quaternion()), 0, 1)
 	
 	# Scale animations by how close to matching we are
-	accum_diff /= get_child_count()	
-	anims.speed_scale = clampf(1 - accum_diff, 0.1, 1)
-	#print(anims.speed_scale)
+	accum_diff /= (get_child_count() - 2)	
+	var anim_speed = clampf(1 - accum_diff , 0.1, 1)
+	
+	anims.set("parameters/time_scale/scale", anim_speed)
+	print(anim_speed)
 
 func get_bone_pose(name):
 	return target_skeleton.get_bone_global_pose(target_skeleton.find_bone(name)).rotated(Vector3.UP,target_skeleton.rotation.y)
+
+func get_lowest_bone():
+	var c = get_children()
+	c.sort_custom(func(a,b): return a.global_position.y < b.global_position.y)
+	
+	return c[0]
 
 # Critically damped spring
 func hookes_law(displacement: Vector3, current_velocity: Vector3, stiffness: float) -> Vector3:
