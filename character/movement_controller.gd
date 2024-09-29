@@ -1,6 +1,6 @@
 extends Node
 
-@export var follow: Node3D
+@export var follow: RigidBody3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -33,6 +33,11 @@ func _process(delta: float) -> void:
 	$Skeleton3D.rotation.y = get_parent().get_node("SpringArm3D").rotation.y
 	
 	if direction:
+		# Apply small force in target dir
+		var force = Vector3(-direction.x, 0, direction.y) * 10
+		follow.apply_central_force(force.rotated(Vector3.UP, $Skeleton3D.rotation.y))
+		
+		# Rotate to account for backing up
 		var adj = Vector2(direction.x, abs(direction.y))
 		if direction.y < 0:
 			adj.x = -adj.x
