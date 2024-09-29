@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 		rescaled_torque = rescaled_torque.limit_length(max_angular_force) 
 		
 		if b.name == "mixamorig_LeftLeg":
-			print("DIFF ", stiffness_multi)
+			#print("DIFF ", stiffness_multi)
 			#print("VELO ", b.angular_velocity)
 			#print("INER ", )
 			#print("FORC", rescaled_torque)
@@ -67,5 +67,5 @@ func get_lowest_bone():
 
 # Critically damped spring
 func hookes_law(displacement: Vector3, current_velocity: Vector3, stiffness: float) -> Vector3:
-	return stiffness * displacement - 1 * (sqrt(stiffness) * current_velocity)
+	return stiffness * displacement - 2 * (sqrt(stiffness) * current_velocity)
 	

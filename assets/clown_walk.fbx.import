@@ -3,12 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bub03j5m7uu7u"
-valid=false
+uid="uid://8n3i6bue5ej2"
+path="res://.godot/imported/clown_walk.fbx-efc5b97c16dbc6d870cff50a7648e11c.scn"
 
 [deps]
 
-source_file="res://assets/skin.fbx"
+source_file="res://assets/clown_walk.fbx"
+dest_files=["res://.godot/imported/clown_walk.fbx-efc5b97c16dbc6d870cff50a7648e11c.scn"]
 
 [params]
 
@@ -30,28 +31,9 @@ animation/trimming=true
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={
-"meshes": {
-"Beta_Joints": {
-"save_to_file/enabled": true,
-"save_to_file/path": "debug_joints"
-},
-"Beta_Surface": {
-"generate/lightmap_uv": 0,
-"generate/lods": 0,
-"generate/shadow_meshes": 0,
-"lods/normal_merge_angle": 60.0,
-"lods/normal_split_angle": 25.0,
-"save_to_file/enabled": true,
-"save_to_file/path": "res://debug_mesh.res"
-}
-},
-"nodes": {
-"PATH:Skeleton3D": {
-"rest_pose/external_animation_library": null
-}
-}
-}
+_subresources={}
 fbx/importer=0
 fbx/allow_geometry_helper_nodes=false
 fbx/embedded_image_handling=1
+gltf/naming_version=1
+gltf/embedded_image_handling=1

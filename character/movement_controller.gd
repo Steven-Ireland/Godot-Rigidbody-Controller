@@ -34,7 +34,7 @@ func _process(delta: float) -> void:
 	
 	if direction:
 		# Apply small force in target dir
-		var force = Vector3(-direction.x, 0, direction.y) * 10
+		var force = Vector3(-direction.x, 0, direction.y).normalized() * 10
 		follow.apply_central_force(force.rotated(Vector3.UP, $Skeleton3D.rotation.y))
 		
 		# Rotate to account for backing up

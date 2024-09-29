@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://h6o4mfylqxog"
-path="res://.godot/imported/breakdance.fbx-b54d65e6b503cc2f29c06c4bbd41eae0.scn"
+uid="uid://ojt4kn03uq6s"
+path="res://.godot/imported/jump_landing.fbx-150da3e9b206fcf46e3d4342b5124689.scn"
 
 [deps]
 
-source_file="res://assets/breakdance.fbx"
-dest_files=["res://.godot/imported/breakdance.fbx-b54d65e6b503cc2f29c06c4bbd41eae0.scn"]
+source_file="res://assets/jump_landing.fbx"
+dest_files=["res://.godot/imported/jump_landing.fbx-150da3e9b206fcf46e3d4342b5124689.scn"]
 
 [params]
 
@@ -36,8 +36,8 @@ _subresources={
 "mixamo_com": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "res://assets/anims/breakdance.res",
-"settings/loop_mode": 1,
+"save_to_file/path": "res://assets/anims/jump_landing.res",
+"settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",
@@ -1837,5 +1837,3 @@ _subresources={
 fbx/importer=0
 fbx/allow_geometry_helper_nodes=false
 fbx/embedded_image_handling=1
-gltf/naming_version=0
-gltf/embedded_image_handling=1

@@ -1,0 +1,6 @@
+[gd_resource type="ORMMaterial3D" format=3 uid="uid://tvj5hgyp6juh"]
+
+[resource]
+albedo_color = Color(0, 0, 0, 1)
+emission_enabled = true
+emission = Color(0.428096, 0.59054, 0.530479, 1)
