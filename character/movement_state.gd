@@ -8,6 +8,8 @@ extends BaseState
 
 @export var animation_tree: AnimationTree
 
+var smooth_velocity = Vector3()
+
 func enter(args):
 	animation_tree.set("parameters/Transition/transition_request", "movement")
 
@@ -27,6 +29,8 @@ func physics_update(delta) -> void:
 	
 	if Input.is_action_pressed("shift"):
 		direction *= 2
+		
+	smooth_velocity = smooth_velocity.move_toward(physics_target.quaternion.inverse() * physics_target.linear_velocity, 0.1)
 		
 	apply_movement_anim(direction, delta)
 	rotate_skeleton(direction)
@@ -48,7 +52,18 @@ func apply_nudge(movement_vector: Vector2):
 
 func rotate_skeleton(movement_vector: Vector2):
 	# Rotate target skelly, mirrored when reversing
+	pose_skeleton.rotation.x = 0
+	pose_skeleton.rotation.z = 0
 	pose_skeleton.rotation.y = camera_arm.rotation.y
+	
+	var rotated_vel = smooth_velocity
+	
+	var xvel_diff = clamp(rotated_vel.x, -3.0, 3.0) / 3.0
+	
+	var rotation_radians_z = xvel_diff * PI / 10.0
+	
+	#pose_skeleton.rotate(pose_skeleton.transform.basis.x.normalized(), rotation_radians_x)
+	pose_skeleton.rotate(pose_skeleton.transform.basis.z.normalized(), rotation_radians_z)
 	
 	if movement_vector:
 		var adj = Vector2(movement_vector.x, abs(movement_vector.y))

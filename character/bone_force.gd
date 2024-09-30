@@ -25,7 +25,7 @@ func _physics_process(delta: float) -> void:
 		var rotation_difference := target_transform.basis.get_rotation_quaternion() * current_transform.basis.get_rotation_quaternion().inverse()
 		var angle_diff = target_transform.basis.get_rotation_quaternion().angle_to(current_transform.basis.get_rotation_quaternion())
 		
-		var stiffness_multi = (abs(angle_diff)+1)
+		var stiffness_multi = (abs(angle_diff)+0.5)
 		
 		var og_inertia = PhysicsServer3D.body_get_direct_state(b.get_rid()).inverse_inertia.inverse()
 		var torque = hookes_law(rotation_difference.get_euler(), b.angular_velocity, spring_stiffness * stiffness_multi * stiffness_modifier)
@@ -48,12 +48,12 @@ func _physics_process(delta: float) -> void:
 		
 		b.apply_torque(rescaled_torque)
 		
-		if not b.name.contains("Toe"):
+		if not b.name.contains("Foot"):
 			accum_diff += clamp(angle_diff, 0, 1)
 	
 	# Scale animations by how close to matching we are
 	accum_diff /= (get_child_count() - 2)	
-	var anim_speed = clampf(1 - accum_diff , 0.6, 1)
+	var anim_speed = clampf(1 - accum_diff , 0.5, 1)
 	
 	#anims.set("parameters/time_scale/scale", anim_speed)
 	#print(anim_speed)
