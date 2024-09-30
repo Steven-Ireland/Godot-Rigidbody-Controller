@@ -1,11 +1,10 @@
 extends BaseState
 
+@export var pose_match_body: PoseMatchBody
 @export var animation_tree: AnimationTree
 @export var animation_player: AnimationPlayer
 @export var physics_target: RigidBody3D
-
-@export var foot1: RigidBody3D
-@export var foot2: RigidBody3D
+@export var skeleton: Skeleton3D
 
 var is_active := false
 var duration := 0.0
@@ -20,37 +19,47 @@ func _process(delta: float) -> void:
 		transition.emit(self, "jump", {})
 
 func _on_animation_end(anim_name):
-	if is_active and anim_name == "poses/jump_landing":
-		transition.emit(self, "movement", {})
+	if is_active and anim_name == "poses/jump":
+		transition.emit(self, "fall", {})
 		
 func get_movement_vector():
 	var left = -1 if Input.is_action_pressed("left") else 1 if Input.is_action_pressed("right") else 0
 	var forward = -1 if Input.is_action_pressed("backward") else 1 if Input.is_action_pressed("forward") else 0
 	
-	return Vector3(-left, 0, forward).normalized().rotated(Vector3.UP, physics_target.rotation.y)
+	return Vector3(-left, 0, forward).normalized()
 	
 func physics_update(delta):
 	duration += delta
+	var movement = get_movement_vector()
 	
-	physics_target.apply_central_force(get_movement_vector() * 20)
+	var rotation_radians_x = movement.z * PI / 16.0
+	var rotation_radians_z = movement.x * PI / 16.0
+	
+	print(movement.y)
+	skeleton.rotation.z = 0
+	skeleton.rotation.x = 0
+	
+	skeleton.rotate(skeleton.transform.basis.x.normalized(), rotation_radians_x)
+	skeleton.rotate(skeleton.transform.basis.z.normalized(), -rotation_radians_z)
+	
+	physics_target.apply_central_force(get_movement_vector().rotated(Vector3.UP, physics_target.rotation.y) * 20)
 	physics_target.apply_central_force(Vector3(0, 1, 0) * 40)
-	
-	#print(foot1.get_contact_count())
-	
-	if jump_stage == 0 and duration > 0.8 and foot1.get_contact_count() == 0 and foot2.get_contact_count() == 0:
-		jump_stage = 1
-	elif jump_stage == 1 and (foot1.get_contact_count() > 0 or foot2.get_contact_count() > 0) or duration > 5:
-		animation_tree.set("parameters/jump_state/transition_request", "jump_land")
+
+func update(delta):
+	if Input.is_action_just_released("jump"):
+		animation_tree.set("parameters/jump_seek/seek_request", 0.65)
 
 func enter(args):
 	duration = 0
 	jump_stage = 0
 	is_active = true
 	animation_tree.set("parameters/Transition/transition_request", "jump")
-	animation_tree.set("parameters/jump_state/transition_request", "jump_up")
 
 func exit():
 	is_active = false
+	pose_match_body.stiffness_modifier = 1.0
+	skeleton.rotation.z = 0
+	skeleton.rotation.x = 0
 
-func can_exit():
-	return false
+func can_exit(new_state_name):
+	return new_state_name == "fall"

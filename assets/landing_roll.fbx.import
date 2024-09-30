@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://h6o4mfylqxog"
-path="res://.godot/imported/breakdance.fbx-b54d65e6b503cc2f29c06c4bbd41eae0.scn"
+uid="uid://dofbjfessd324"
+path="res://.godot/imported/landing_roll.fbx-0266fd632d668bc025823ede08ea1c8d.scn"
 
 [deps]
 
-source_file="res://assets/breakdance.fbx"
-dest_files=["res://.godot/imported/breakdance.fbx-b54d65e6b503cc2f29c06c4bbd41eae0.scn"]
+source_file="res://assets/landing_roll.fbx"
+dest_files=["res://.godot/imported/landing_roll.fbx-0266fd632d668bc025823ede08ea1c8d.scn"]
 
 [params]
 
@@ -36,8 +36,8 @@ _subresources={
 "mixamo_com": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "res://assets/anims/breakdance.res",
-"settings/loop_mode": 1,
+"save_to_file/path": "res://assets/anims/landing_roll.res",
+"settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",

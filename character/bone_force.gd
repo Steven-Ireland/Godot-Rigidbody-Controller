@@ -1,4 +1,5 @@
 extends Node
+class_name PoseMatchBody
 
 @export var target_forcer: RigidBody3D
 @export var target_skeleton: Skeleton3D
@@ -7,6 +8,8 @@ extends Node
 @export var max_angular_force: float = 9999.0
 
 @export var anims: AnimationTree
+
+var stiffness_modifier = 1.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
@@ -17,7 +20,7 @@ func _physics_process(delta: float) -> void:
 			continue
 					
 		#var height = b.global_position.y - get_lowest_bone().position.y
-		var target_transform: Transform3D = get_bone_pose(b.name)
+		var target_transform: Transform3D = target_skeleton.transform * get_bone_pose(b.name)
 		var current_transform: Transform3D = b.transform
 		var rotation_difference := target_transform.basis.get_rotation_quaternion() * current_transform.basis.get_rotation_quaternion().inverse()
 		var angle_diff = target_transform.basis.get_rotation_quaternion().angle_to(current_transform.basis.get_rotation_quaternion())
@@ -25,8 +28,7 @@ func _physics_process(delta: float) -> void:
 		var stiffness_multi = (abs(angle_diff)+1)
 		
 		var og_inertia = PhysicsServer3D.body_get_direct_state(b.get_rid()).inverse_inertia.inverse()
-		var torque = hookes_law(rotation_difference.get_euler(), b.angular_velocity, spring_stiffness * stiffness_multi)
-		
+		var torque = hookes_law(rotation_difference.get_euler(), b.angular_velocity, spring_stiffness * stiffness_multi * stiffness_modifier)
 		
 		# To apply inertia properly, rotate the proposed torque back to zero basis
 		# Then apply inertia, which is centered only around xyz axes
@@ -51,13 +53,13 @@ func _physics_process(delta: float) -> void:
 	
 	# Scale animations by how close to matching we are
 	accum_diff /= (get_child_count() - 2)	
-	var anim_speed = clampf(1 - accum_diff , 0.8, 1)
+	var anim_speed = clampf(1 - accum_diff , 0.6, 1)
 	
 	#anims.set("parameters/time_scale/scale", anim_speed)
 	#print(anim_speed)
 
 func get_bone_pose(name):
-	return target_skeleton.get_bone_global_pose(target_skeleton.find_bone(name)).rotated(Vector3.UP,target_skeleton.rotation.y)
+	return target_skeleton.get_bone_global_pose(target_skeleton.find_bone(name))
 
 func get_lowest_bone():
 	var c = get_children()

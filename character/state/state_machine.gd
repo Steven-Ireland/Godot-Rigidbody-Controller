@@ -1,4 +1,5 @@
 extends Node
+class_name StateMachine
 
 @export var initial_state: BaseState
 @onready var current_state: BaseState = initial_state
@@ -16,7 +17,7 @@ func _ready() -> void:
 
 func _on_transition(caller, next_state_name, args):
 	if current_state:
-		if current_state != caller and not current_state.can_exit():
+		if current_state != caller and not current_state.can_exit(next_state_name):
 			return
 		else:
 			current_state.exit()

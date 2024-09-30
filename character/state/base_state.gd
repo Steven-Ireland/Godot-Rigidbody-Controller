@@ -15,5 +15,5 @@ func update(delta) -> void:
 func physics_update(delta) -> void:
 	pass
 
-func can_exit() -> bool:
+func can_exit(new_state_name: String) -> bool:
 	return true
