@@ -16,7 +16,7 @@ func _process(delta: float) -> void:
 	else:
 		time_since_foot_touch = 0.0
 	
-	if time_since_foot_touch > 1.0 and not is_active:
+	if time_since_foot_touch > 0.4 and not is_active:
 		transition.emit(self, "fall", {})
 
 func update(delta):
@@ -29,7 +29,8 @@ func update(delta):
 func enter(args):
 	is_active = true
 	if foot1.get_contact_count() == 0 and foot2.get_contact_count() == 0:
-		animation_tree.set("parameters/Transition/transition_request", "fall")
+		pass
+		#animation_tree.set("parameters/Transition/transition_request", "fall")
 	else:
 		update(0.01)
 	

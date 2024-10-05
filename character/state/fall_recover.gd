@@ -19,21 +19,22 @@ func enter(args):
 		var normal: Vector3 = result.normal
 		var along_normal = foot.linear_velocity.project(-normal)
 		
-		severity = along_normal.length() / 3
+		severity = along_normal.length() / 5
 		
 	print(severity)
 	
-	animation_tree.set("parameters/Transition/transition_request", "fall_recover")
-	animation_tree.set("parameters/landing_severity/blend_amount", severity)
+	#animation_tree.set("parameters/Transition/transition_request", "fall_recover")
+	#animation_tree.set("parameters/landing_severity/blend_amount", severity)
 
 	var tween = get_tree().create_tween()
-	pose_match_body.stiffness_modifier = .8
-	tween.tween_property(pose_match_body, "stiffness_modifier", .3, severity)
-	tween.tween_property(pose_match_body, "stiffness_modifier", 1.0, 0.1)
+	pose_match_body.stiffness_modifier = .1
+	tween.tween_property(pose_match_body, "stiffness_modifier", .2, 0.5)
+	tween.tween_property(pose_match_body, "stiffness_modifier", 1.0, 0.5)
 	tween.play()
+	#await tween.finished
+	transition.emit(self, "movement", {})
 	await tween.finished
 	tween.kill()
-	transition.emit(self, "movement", {})
 
 func can_exit(next_state_name):
 	return false
