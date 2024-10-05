@@ -42,8 +42,8 @@ func physics_update(delta):
 	skeleton.rotate(skeleton.transform.basis.x.normalized(), rotation_radians_x)
 	skeleton.rotate(skeleton.transform.basis.z.normalized(), -rotation_radians_z)
 	
-	physics_target.apply_central_force(get_movement_vector().rotated(Vector3.UP, physics_target.rotation.y) * 10)
-	physics_target.apply_central_force(Vector3(0, 1, 0) * 20)
+	physics_target.apply_central_force(get_movement_vector().rotated(Vector3.UP, physics_target.rotation.y) * 5)
+	physics_target.apply_central_force(Vector3(0, 1, 0) * 10)
 
 func update(delta):
 	if Input.is_action_just_released("jump"):
